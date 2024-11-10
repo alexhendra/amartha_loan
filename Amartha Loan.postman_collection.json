@@ -1,0 +1,670 @@
+{
+	"info": {
+		"_postman_id": "86c5dcb2-79ee-4b02-a85a-07f27b722e5f",
+		"name": "Amartha Loan",
+		"description": "# 📄 Get started here\n\nThis service is used to simulate a loan engine for Amartha's purposes.\n\n### 503 response\n\nAn HTTP `503` response from our servers indicates there is an unexpected spike in API access traffic. The server is usually operational within the next five minutes. If the outage persists or you receive any other form of an HTTP `5XX` error, [contact support](https://support.postman.com/hc/en-us/requests/new/).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13368525"
+	},
+	"item": [
+		{
+			"name": "Get Approved Loans",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/approved_loans",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"approved_loans"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Approved Loans",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://192.168.50.128:8080/approved_loans",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"128"
+							],
+							"port": "8080",
+							"path": [
+								"approved_loans"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 11:39:47 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "246"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Get approved loans.\",\n    \"data\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-11-10T11:19:04.447433013Z\",\n            \"UpdatedAt\": \"2024-11-10T11:39:32.819556154Z\",\n            \"DeletedAt\": null,\n            \"BorrowerID\": 1,\n            \"PrincipalAmount\": 200000,\n            \"Rate\": 5,\n            \"AgreementLink\": \"\",\n            \"State\": \"approved\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Loan",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"borrower_id\": 1,\r\n    \"principal_amount\": 200000,\r\n    \"rate\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/loans",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"loans"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Loan Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"borrower_id\": 1,\r\n    \"principal_amount\": 200000,\r\n    \"rate\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.50.128:8080/loans",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"128"
+							],
+							"port": "8080",
+							"path": [
+								"loans"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 11:19:04 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "118"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Loan request has been successfully created.\",\n    \"data\": {\n        \"borrower_id\": 1,\n        \"principal_amount\": 200000,\n        \"rate\": 5\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Approve Loans",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"picture_proof_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\r\n    \"employee_id\": \"1234567\",\r\n    \"approval_date\": \"2024-04-23T18:25:43.511Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/loans/:id/approve",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"loans",
+						":id",
+						"approve"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Approve Not Allowed",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"picture_proof_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\r\n    \"employee_id\": \"1234567\",\r\n    \"approval_date\": \"2024-04-23T18:25:43.511Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.50.128:8080/loans/:id/approve",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"128"
+							],
+							"port": "8080",
+							"path": [
+								"loans",
+								":id",
+								"approve"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 13:23:09 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "44"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"loan is not in proposed state\"\n}"
+				},
+				{
+					"name": "Approval date not valid",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"picture_proof_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\r\n    \"employee_id\": \"1234567\",\r\n    \"approval_date\": \"2024-04-23T18:25:43.511Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/loans/:id/approve",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"loans",
+								":id",
+								"approve"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 16:21:16 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "54"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"approval date must be the same as today\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Investment Loan",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 200000,\r\n    \"investor_id\": \"888888\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/loans/:id/invest",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"loans",
+						":id",
+						"invest"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Invest Success",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 200000,\r\n    \"investor_id\": \"888888\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.50.128:8080/loans/:id/invest",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"128"
+							],
+							"port": "8080",
+							"path": [
+								"loans",
+								":id",
+								"invest"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 13:27:15 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "98"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Your investment has been submitted.\",\n    \"data\": {\n        \"amount\": 200000,\n        \"investor_id\": \"888888\"\n    }\n}"
+				},
+				{
+					"name": "Invest Now Allowed",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 200000,\r\n    \"investor_id\": \"888888\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/loans/:id/invest",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"loans",
+								":id",
+								"invest"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 13:30:14 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "44"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"loan is not in approved state\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Disburse Loan",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"agreement_signed_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\r\n    \"employee_id\": \"1234567\",\r\n    \"disbursement_date\": \"2024-05-01T18:25:43.511Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/loans/:id/disburse",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"loans",
+						":id",
+						"disburse"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Disbursed Success",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"agreement_signed_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\r\n    \"employee_id\": \"1234567\",\r\n    \"disbursement_date\": \"2024-05-01T18:25:43.511Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.50.128:8080/loans/:id/disburse",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"50",
+								"128"
+							],
+							"port": "8080",
+							"path": [
+								"loans",
+								":id",
+								"disburse"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 13:34:09 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "266"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Your loan has been successfully disbursed.\",\n    \"data\": {\n        \"agreement_signed_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\n        \"employee_id\": \"1234567\",\n        \"disbursement_date\": \"2024-05-01T18:25:43.511Z\"\n    }\n}"
+				},
+				{
+					"name": "Disburse Not Allowed",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"agreement_signed_url\": \"https://cdn.hellosehat.com/wp-content/uploads/2021/09/c06b8679-resep-kopi-gula-aren.jpg?w=750&q=75\",\r\n    \"employee_id\": \"1234567\",\r\n    \"disbursement_date\": \"2024-05-01T18:25:43.511Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/loans/:id/disburse",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"loans",
+								":id",
+								"disburse"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 13:34:32 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "44"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"loan is not in invested state\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get ROI",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "ROI Per Investor",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/investor/:id/roi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"investor",
+								":id",
+								"roi"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "888888"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 10 Nov 2024 16:31:30 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "34"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Get ROI.\",\n    \"data\": 500\n}"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://192.168.50.128:8080"
+		}
+	]
+}
