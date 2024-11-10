@@ -66,6 +66,11 @@ func (ls *LoanService) InvestLoan(loanID uint, investment *models.Investment) er
 
 	investment.LoanID = loanID
 	investment.Rate = loan.Rate
+	repayment := loan.PrincipalAmount * (1 + loan.Rate)
+	if investment.ROI, err = calculateROI(loan.PrincipalAmount, repayment); err != nil {
+		return err
+	}
+
 	if err := ls.InvestmentRepo.Create(investment); err != nil {
 		return err
 	}
@@ -99,6 +104,10 @@ func (ls *LoanService) DisburseLoan(loanID uint, disbursement *models.Disburseme
 	return ls.LoanRepo.Update(loan)
 }
 
+func (ls *LoanService) GetROI(investorID string) (roi float64, err error) {
+	return ls.InvestmentRepo.GetReturnOfInvestment(investorID)
+}
+
 func validateApprovalDate(approvalDate time.Time) bool {
 	// Get today's date with time set to midnight
 	// To be like this: 00:00:00
@@ -108,4 +117,18 @@ func validateApprovalDate(approvalDate time.Time) bool {
 		return false
 	}
 	return true
+}
+
+func calculateROI(initialInvestment, paymentLoan float64) (float64, error) {
+	if initialInvestment == 0 {
+		return 0, nil // Avoid division by zero
+	}
+
+	if initialInvestment >= paymentLoan {
+		return 0, errors.New("loan payment amount must be greater than the principal amount")
+	}
+
+	profit := paymentLoan - initialInvestment
+	roi := (profit / initialInvestment) * 100
+	return roi, nil
 }

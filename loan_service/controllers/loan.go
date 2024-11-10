@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -113,5 +114,20 @@ func (lc *LoanController) DisburseLoan(c echo.Context) error {
 	return c.JSON(http.StatusOK, &viewmodels.MessageResponse{
 		Message: "Your loan has been successfully disbursed.",
 		Data:    disbursementPayload,
+	})
+}
+
+func (lc *LoanController) GetROI(c echo.Context) error {
+	investorID := c.Param("id")
+	log.Print("Nilai investorID*****")
+	log.Print(investorID)
+	loans, err := lc.LoanService.GetROI(investorID)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, &viewmodels.MessageResponse{
+		Message: "Get ROI.",
+		Data:    loans,
 	})
 }

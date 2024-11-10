@@ -37,6 +37,8 @@ type Investment struct {
 	LoanID     uint
 	InvestorID string
 	Amount     float64
+	Rate       float64
+	ROI        float64
 }
 
 type Disbursement struct {

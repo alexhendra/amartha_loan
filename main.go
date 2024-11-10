@@ -34,6 +34,7 @@ func main() {
 	e.PUT("/loans/:id/approve", loanController.ApproveLoan)
 	e.PUT("/loans/:id/invest", loanController.InvestLoan)
 	e.PUT("/loans/:id/disburse", loanController.DisburseLoan)
+	e.GET("/investor/:id/roi", loanController.GetROI)
 
 	// Start server
 	e.Start(":8080")

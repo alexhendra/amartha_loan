@@ -9,6 +9,7 @@ type InvestmentRepository interface {
 	Create(investment *models.Investment) error
 	GetTotalInvestment(loanID uint) (float64, error)
 	FindByLoanID(loanID uint) ([]models.Investment, error)
+	GetReturnOfInvestment(investorID string) (float64, error)
 }
 
 type investmentRepository struct {
@@ -37,4 +38,12 @@ func (r *investmentRepository) FindByLoanID(loanID uint) ([]models.Investment, e
 		return nil, err
 	}
 	return investments, nil
+}
+
+func (r *investmentRepository) GetReturnOfInvestment(investorID string) (float64, error) {
+	var total float64
+	if err := r.db.Model(&models.Investment{}).Where("investor_id = ?", investorID).Select("COALESCE(sum(roi), 0)").Scan(&total).Error; err != nil {
+		return 0, err
+	}
+	return total, nil
 }
