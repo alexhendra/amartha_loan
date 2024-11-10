@@ -30,6 +30,7 @@ func main() {
 
 	// Define routes
 	e.POST("/loans", loanController.CreateLoan)
+	e.GET("/approved_loans", loanController.GetApprovedLoans)
 	e.PUT("/loans/:id/approve", loanController.ApproveLoan)
 	e.PUT("/loans/:id/invest", loanController.InvestLoan)
 	e.PUT("/loans/:id/disburse", loanController.DisburseLoan)

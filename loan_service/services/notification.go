@@ -6,20 +6,24 @@ import (
 	"github.com/alexhendra/amartha_loan/loan_service/repositories"
 )
 
-type NotificationService struct {
+type NotificationService interface {
+	SendAgreementLetters(loanID uint) error
+}
+
+type notificationService struct {
 	InvestmentRepo repositories.InvestmentRepository
 	LoanRepo       repositories.LoanRepository
 }
 
-func NewNotificationService(investmentRepo repositories.InvestmentRepository, loanRepo repositories.LoanRepository) *NotificationService {
-	return &NotificationService{
+func NewNotificationService(investmentRepo repositories.InvestmentRepository, loanRepo repositories.LoanRepository) NotificationService {
+	return &notificationService{
 		InvestmentRepo: investmentRepo,
 		LoanRepo:       loanRepo,
 	}
 }
 
 // SendAgreementLetters sends an email to all investors with the loan's agreement letter link.
-func (ns *NotificationService) SendAgreementLetters(loanID uint) error {
+func (ns *notificationService) SendAgreementLetters(loanID uint) error {
 	// Retrieve the loan details
 	loan, err := ns.LoanRepo.FindByID(loanID)
 	if err != nil {
@@ -46,7 +50,7 @@ func (ns *NotificationService) SendAgreementLetters(loanID uint) error {
 
 // sendEmailToInvestor simulates sending an email to an investor.
 // In a real-world scenario, this would connect to an email service provider.
-func (ns *NotificationService) sendEmailToInvestor(investorID string, agreementLink string) error {
+func (ns *notificationService) sendEmailToInvestor(investorID string, agreementLink string) error {
 	// Placeholder for sending email logic
 	fmt.Printf("Sending email to investor %s with agreement link: %s\n", investorID, agreementLink)
 	return nil

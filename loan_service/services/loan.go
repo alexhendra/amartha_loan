@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"log"
 
 	"github.com/alexhendra/amartha_loan/loan_service/models"
 	"github.com/alexhendra/amartha_loan/loan_service/repositories"
@@ -12,11 +13,15 @@ type LoanService struct {
 	ApprovalRepo        repositories.ApprovalRepository
 	InvestmentRepo      repositories.InvestmentRepository
 	DisbursementRepo    repositories.DisbursementRepository
-	NotificationService *NotificationService
+	NotificationService NotificationService
 }
 
 func (ls *LoanService) CreateLoan(loan *models.Loan) error {
 	return ls.LoanRepo.Create(loan)
+}
+
+func (ls *LoanService) GetApprovedLoans() (loans []*models.Loan, err error) {
+	return ls.LoanRepo.GetApprovedLoan()
 }
 
 func (ls *LoanService) ApproveLoan(loanID uint, approval *models.Approval) error {
@@ -25,7 +30,7 @@ func (ls *LoanService) ApproveLoan(loanID uint, approval *models.Approval) error
 		return err
 	}
 	if loan.State != models.StateProposed {
-		return errors.New("Loan is not in proposed state")
+		return errors.New("loan is not in proposed state")
 	}
 	loan.State = models.StateApproved
 	approval.LoanID = loanID
@@ -38,7 +43,7 @@ func (ls *LoanService) ApproveLoan(loanID uint, approval *models.Approval) error
 func (ls *LoanService) InvestLoan(loanID uint, investment *models.Investment) error {
 	loan, err := ls.LoanRepo.FindByID(loanID)
 	if err != nil || loan.State != models.StateApproved {
-		return errors.New("Loan is not in approved state")
+		return errors.New("loan is not in approved state")
 	}
 
 	totalInvestment, err := ls.InvestmentRepo.GetTotalInvestment(loanID)
@@ -47,8 +52,10 @@ func (ls *LoanService) InvestLoan(loanID uint, investment *models.Investment) er
 	}
 
 	if totalInvestment+investment.Amount > loan.PrincipalAmount {
-		return errors.New("Investment exceeds principal amount")
+		return errors.New("investment exceeds principal amount")
 	}
+
+	log.Printf("%+v", loan)
 
 	investment.LoanID = loanID
 	if err := ls.InvestmentRepo.Create(investment); err != nil {
@@ -69,7 +76,7 @@ func (ls *LoanService) InvestLoan(loanID uint, investment *models.Investment) er
 func (ls *LoanService) DisburseLoan(loanID uint, disbursement *models.Disbursement) error {
 	loan, err := ls.LoanRepo.FindByID(loanID)
 	if err != nil || loan.State != models.StateInvested {
-		return errors.New("Loan is not in invested state")
+		return errors.New("loan is not in invested state")
 	}
 	loan.State = models.StateDisbursed
 	disbursement.LoanID = loanID

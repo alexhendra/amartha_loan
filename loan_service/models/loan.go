@@ -1,8 +1,9 @@
 package models
 
 import (
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type LoanState string
@@ -16,10 +17,9 @@ const (
 
 type Loan struct {
 	gorm.Model
-	BorrowerID      string
+	BorrowerID      uint
 	PrincipalAmount float64
 	Rate            float64
-	ROI             float64
 	AgreementLink   string
 	State           LoanState `gorm:"default:'proposed'"`
 }

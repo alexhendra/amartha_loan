@@ -9,6 +9,7 @@ type LoanRepository interface {
 	Create(loan *models.Loan) error
 	FindByID(id uint) (*models.Loan, error)
 	Update(loan *models.Loan) error
+	GetApprovedLoan() ([]*models.Loan, error)
 }
 
 type loanRepository struct {
@@ -29,6 +30,14 @@ func (r *loanRepository) FindByID(id uint) (*models.Loan, error) {
 		return nil, err
 	}
 	return &loan, nil
+}
+
+func (r *loanRepository) GetApprovedLoan() (resp []*models.Loan, err error) {
+	if err := r.db.Model(&models.Loan{}).Where("state = ?", models.StateApproved).Scan(&resp).Error; err != nil {
+		return nil, err
+	}
+
+	return resp, err
 }
 
 func (r *loanRepository) Update(loan *models.Loan) error {

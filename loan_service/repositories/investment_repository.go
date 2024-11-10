@@ -25,7 +25,7 @@ func (r *investmentRepository) Create(investment *models.Investment) error {
 
 func (r *investmentRepository) GetTotalInvestment(loanID uint) (float64, error) {
 	var total float64
-	if err := r.db.Model(&models.Investment{}).Where("loan_id = ?", loanID).Select("sum(amount)").Scan(&total).Error; err != nil {
+	if err := r.db.Model(&models.Investment{}).Where("loan_id = ?", loanID).Select("COALESCE(sum(amount), 0)").Scan(&total).Error; err != nil {
 		return 0, err
 	}
 	return total, nil
