@@ -3,8 +3,8 @@ package services
 import (
 	"errors"
 
-	"github.com/alexhendra/amartha_loan/models"
-	"github.com/alexhendra/amartha_loan/repositories"
+	"github.com/alexhendra/amartha_loan/loan_service/models"
+	"github.com/alexhendra/amartha_loan/loan_service/repositories"
 )
 
 type LoanService struct {
@@ -40,14 +40,21 @@ func (ls *LoanService) InvestLoan(loanID uint, investment *models.Investment) er
 	if err != nil || loan.State != models.StateApproved {
 		return errors.New("Loan is not in approved state")
 	}
-	totalInvestment := ls.InvestmentRepo.GetTotalInvestment(loanID)
+
+	totalInvestment, err := ls.InvestmentRepo.GetTotalInvestment(loanID)
+	if err != nil {
+		return err
+	}
+
 	if totalInvestment+investment.Amount > loan.PrincipalAmount {
 		return errors.New("Investment exceeds principal amount")
 	}
+
 	investment.LoanID = loanID
 	if err := ls.InvestmentRepo.Create(investment); err != nil {
 		return err
 	}
+
 	if totalInvestment+investment.Amount == loan.PrincipalAmount {
 		loan.State = models.StateInvested
 		err = ls.NotificationService.SendAgreementLetters(loanID)
@@ -55,6 +62,7 @@ func (ls *LoanService) InvestLoan(loanID uint, investment *models.Investment) er
 			return err
 		}
 	}
+
 	return ls.LoanRepo.Update(loan)
 }
 

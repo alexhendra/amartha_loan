@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/alexhendra/amartha_loan/models"
-	"github.com/alexhendra/amartha_loan/services"
+	"github.com/alexhendra/amartha_loan/loan_service/models"
+	"github.com/alexhendra/amartha_loan/loan_service/services"
 	"github.com/labstack/echo/v4"
 )
 

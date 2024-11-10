@@ -3,7 +3,7 @@ package services
 import (
 	"fmt"
 
-	"github.com/alexhendra/amartha_loan/repositories"
+	"github.com/alexhendra/amartha_loan/loan_service/repositories"
 )
 
 type NotificationService struct {

@@ -1,13 +1,14 @@
 package repositories
 
 import (
-	"github.com/alexhendra/amartha_loan/models"
+	"github.com/alexhendra/amartha_loan/loan_service/models"
 	"gorm.io/gorm"
 )
 
 type InvestmentRepository interface {
 	Create(investment *models.Investment) error
 	GetTotalInvestment(loanID uint) (float64, error)
+	FindByLoanID(loanID uint) ([]models.Investment, error)
 }
 
 type investmentRepository struct {
@@ -28,4 +29,12 @@ func (r *investmentRepository) GetTotalInvestment(loanID uint) (float64, error) 
 		return 0, err
 	}
 	return total, nil
+}
+
+func (r *investmentRepository) FindByLoanID(loanID uint) ([]models.Investment, error) {
+	var investments []models.Investment
+	if err := r.db.Where("loan_id = ?", loanID).Find(&investments).Error; err != nil {
+		return nil, err
+	}
+	return investments, nil
 }
